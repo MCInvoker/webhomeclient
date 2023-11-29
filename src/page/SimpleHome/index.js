@@ -7,20 +7,20 @@ const mockLinkAll = [
         categoryId: '1',
         links: [
             {
-                url:'https://x.chat838.com/',
-                title: '百度',
+                url:'https://fanyi.baidu.com/translate',
+                title: '百度翻译',
                 icon: '',
                 linkId: '1'
             },
             {
-                url:'https://x.chat838.com/',
-                title: 'chat',
-                icon: '',
+                url:'https://ant-design.antgroup.com/docs/react/introduce-cn',
+                title: 'antd',
+                icon: 'https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png',
                 linkId: '2'
             },
             {
-                url:'https://x.chat838.com/',
-                title: 'chat',
+                url:'https://github.com/MCInvoker',
+                title: 'github',
                 icon: '',
                 linkId: '3'
             },
@@ -160,7 +160,8 @@ const SimpleHome = () => {
                                         <div className='linkBox' onClick={() => handleLink(link.url)}>
                                             {
                                                 link.icon && (
-                                                    <img className='linkImg' src={link.icon}></img>
+                                                    <img className='linkImg' src={link.icon} alt={link.title || ''}></img>
+                                                    // <img className='linkImg' src="logo192.png" alt={link.title || ''}></img>
                                                 )
                                             }
                                             {
