@@ -26,8 +26,8 @@
     width: 100px;
     margin: 16px;
     cursor: pointer;
-
 }
+
 .linkImg{
     width: 100px;
     height: 100px;
@@ -35,6 +35,11 @@
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
     padding: 10px;
     box-sizing: border-box;
+    transition: all 0.3s ease-in-out;
+}
+.linkImg:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,.30);
+    transform: scale(1.1);
 }
 .linkInitial{
     width: 100px;
@@ -46,6 +51,11 @@
     font-size: 50px;
     font-weight: 600;
     box-shadow: 0 4px 12px rgba(0,0,0,.15);
+    transition: all 0.3s ease-in-out;
+}
+.linkInitial:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,.45);
+    transform: scale(1.1);
 }
 .link{
     display: block;

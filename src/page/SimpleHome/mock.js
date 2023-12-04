@@ -10,7 +10,7 @@ export const mockLinkAll = [
                 linkId: '1'
             },
             {
-                url:'https://ant-design.antgroup.com/docs/react/introduce-cn',
+                url:'https://ant-design.antgroup.com/components/overview-cn/',
                 title: 'antd',
                 icon: 'https://gw.alipayobjects.com/zos/rmsportal/rlpTLlbMzTNYuZGGCVYM.png',
                 linkId: '2'
@@ -28,15 +28,21 @@ export const mockLinkAll = [
                 linkId: '4'
             },
             {
-                url:'https://x.chat838.com/',
-                title: 'chat',
+                url:'https://www.reactnative.cn/docs/components-and-apis',
+                title: 'RN',
                 icon: '',
                 linkId: '5'
+            },
+            {
+                url:'https://rn.mobile.ant.design/components/locale-provider-cn/',
+                title: 'ANTD-RN',
+                icon: '',
+                linkId: '6'
             },
         ]
     },
     {
-        categoryName: 'zhibo',
+        categoryName: 'game',
         categoryId: '2',
         links: [
             {
