@@ -1,6 +1,14 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## gitcommit
+feat: 新功能
+fix: 修复 bug
+docs: 文档变更
+style: 代码格式（不影响代码逻辑的变动，比如空格、格式化等）
+refactor: 代码重构
+test: 增加或修改测试
+chore: 构建过程或辅助工具的变动
 
 ## Available Scripts
 
