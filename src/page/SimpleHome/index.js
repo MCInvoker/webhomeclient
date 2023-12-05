@@ -2,9 +2,7 @@ import { useState } from "react";
 import './index.css'
 import { mockLinkAll } from './mock'
 import AddLink from "./addLink";
-import { toBeRequired } from "@testing-library/jest-dom/matchers";
-import HoverDelete from "../../compenonts/HoverDelete";
-
+import HoverEditDelete from "../../compenonts/HoverEditDelete";
 
 const SimpleHome = () => {
 
@@ -41,8 +39,11 @@ const SimpleHome = () => {
                                 category.links.map((link, linkIndex) => {
                                     return (
                                         <div key={link.linkId}>
-                                            <HoverDelete
+                                            <HoverEditDelete
                                                 handleDelete={() => console.log('handleDelete')}
+                                                handleEdit={() => console.log('handleEdit')}
+                                                top={-16}
+                                                right={-16}
                                             >
                                                 <div className='linkBox' onClick={() => handleLink(link.url)}>
                                                     {
@@ -58,7 +59,7 @@ const SimpleHome = () => {
                                                     }
                                                     <div className='link' href={link.url} key={link.linkId}>{link.title}</div>
                                                 </div>
-                                            </HoverDelete>
+                                            </HoverEditDelete>
                                         </div>
                                     )
                                 })
