@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './index.css'
 import { mockLinkAll } from './mock'
 import AddLink from "./addLink";
 import HoverEditDelete from "../../compenonts/HoverEditDelete";
+import { addLink, getConfig } from '../../api/link'
+
 
 const SimpleHome = () => {
 
@@ -18,12 +20,24 @@ const SimpleHome = () => {
         console.log(123)
     }
 
-    const handleCreate = (values) => {
+    const handleCreate = async (values) => {
+        console.log('handleCreate', values);
         // 处理新增数据的逻辑
+        const res = await addLink(values)
+        console.log(res)
         console.log('Received values:', values);
         // 在这里触发你的新增数据的请求等操作
         setAddLinkOpen(false);
     };
+
+
+    useEffect(() => {
+        async function fetchData () {
+            const res = await getConfig();
+            console.log(res)
+        }
+        fetchData();
+    }, []);
 
     const handleCancel = () => {
         setAddLinkOpen(false);
