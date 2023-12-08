@@ -27,12 +27,17 @@ const AddLink = (props) => {
             onCancel={onCancel}
             onOk={handleCreate}
         >
-            {/* url:'https://fanyi.baidu.com/translate',
-                title: '百度翻译',
-                icon: '', */}
+            {/* //  {
+        //     "link_id": 1,
+        //     "category_id": 1,
+        //     "link_name": "百度",
+        //     "url": "https://www.baidu.com",
+        //     "description": "百度一下你就知道",
+        //     "created_at": "2023-12-06T02:11:57.000Z"
+        // } */}
             <Form form={form} layout="vertical">
                 <Form.Item
-                    name="title"
+                    name="link_name"
                     label="名称"
                     rules={[{ required: true, message: '请输入链接名称!' }]}
                 >
@@ -57,14 +62,14 @@ const AddLink = (props) => {
         >
           <Input.TextArea />
         </Form.Item> */}
-                <Form.Item label="图标">
+                {/* <Form.Item label="图标">
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />
                             <div style={{ marginTop: 8 }}>Upload</div>
                         </div>
                     </Upload>
-                </Form.Item>
+                </Form.Item> */}
                 {/* <Form.Item label="图标" valuePropName="fileList" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <div>

@@ -1,7 +1,12 @@
 import request from "../utils/request"
 
 const addLink = async (data) => {
-    const res = await request.post('/addLink', data)
+    const res = await request.post('/api/link', data)
+    return res
+}
+
+const deleteLink = async (link_id) => {
+    const res = await request.delete(`/api/link/${link_id}`)
     return res
 }
 
@@ -38,5 +43,6 @@ const getConfig = async () => {
 // export default MyComponent;
 export {
     addLink,
-    getConfig
+    deleteLink,
+    getConfig,
 }
