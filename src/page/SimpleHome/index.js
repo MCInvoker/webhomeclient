@@ -35,11 +35,11 @@ const SimpleHome = () => {
 
     const handleCreateLink = async (values) => {
         // 处理新增数据的逻辑
-        const res = await addLink({ ...values, category_id })
+        const res = await addLink({ ...values }, category_id)
     };
-    
+
     const handleCreateCategory = async (values) => {
-        const res = await addCategory({  ...values }, page_id)
+        const res = await addCategory({ ...values }, page_id)
     };
 
     const handleDeleteLink = async (link_id) => {
@@ -49,9 +49,7 @@ const SimpleHome = () => {
     };
 
     const handleDeleteCategory = async (category_id) => {
-        // 处理新增数据的逻辑
-        const res = await deleteLink(category_id)
-        console.log(res)
+        const res = await deleteCategory(category_id)
     };
 
 
@@ -128,12 +126,12 @@ const SimpleHome = () => {
         <AddLink
             open={addLinkOpen}
             onCreate={handleCreateLink}
-            onCancel={()=> setAddLinkOpen(false)}
+            onCancel={() => setAddLinkOpen(false)}
         />
         <AddCategory
             open={addCategoryOpen}
             onCreate={handleCreateCategory}
-            onCancel={()=> setAddCategoryOpen(false)}
+            onCancel={() => setAddCategoryOpen(false)}
         />
     </div>
 };

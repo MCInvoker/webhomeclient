@@ -1,7 +1,7 @@
 import request from "../utils/request"
 
-const addLink = async (data) => {
-    const res = await request.post('/api/link', data)
+const addLink = async (data, category_id) => {
+    const res = await request.post(`/api/link/${category_id}`, data)
     return res
 }
 
