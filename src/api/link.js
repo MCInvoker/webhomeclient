@@ -21,26 +21,7 @@ const getConfig = async () => {
         }
     }
 }
-// const MyComponent = () => {
-//   const [data, setData] = useState(null);
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await request.get('/path-to-your-api');
-//         setData(response);
-//       } catch (error) {
-//         console.error('请求失败:', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   return <div>{data ? JSON.stringify(data) : '加载中...'}</div>;
-// };
-
-// export default MyComponent;
 export {
     addLink,
     deleteLink,
