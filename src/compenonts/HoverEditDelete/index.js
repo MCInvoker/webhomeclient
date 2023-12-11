@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Button } from "antd";
+import { Button, Popconfirm } from "antd";
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 const HoverEditDelete = ({
     children,
-    showDelayTime = 2000,
+    showDelayTime = 500,
     hiddenDelayTime = 2000,
     handleEdit,
     handleDelete,
     top = 0,
     right = 0,
+    deleteTitle = '删除',
+    deleteDescription = '确定要删除吗?',
 }) => {
     const [showIcon, setShowIcon] = useState(false);
     let hoverTimer;
@@ -37,7 +39,7 @@ const HoverEditDelete = ({
         >
             {children}
             {showIcon && (
-                <span
+                <div
                     style={{
                         position: "absolute",
                         top,
@@ -51,8 +53,16 @@ const HoverEditDelete = ({
                     }}
                 >
                     <Button style={{ marginRight: '8px' }} shape="circle" icon={<EditOutlined />} onClick={() => handleEdit && handleEdit()} />
-                    <Button shape="circle" icon={<DeleteOutlined />} onClick={() => handleDelete && handleDelete()} />
-                </span>
+                    <Popconfirm
+                        title={deleteTitle}
+                        description={deleteDescription}
+                        onConfirm={async () => handleDelete && handleDelete()}
+                        okText="确定"
+                        cancelText="取消"
+                    >
+                        <Button shape="circle" icon={<DeleteOutlined />} />
+                    </Popconfirm>
+                </div>
             )}
         </div>
     );

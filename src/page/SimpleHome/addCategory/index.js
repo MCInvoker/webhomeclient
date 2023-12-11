@@ -1,30 +1,63 @@
 // addCategory category
-import React from 'react';
-import { Modal, Form, Input, Button, Upload } from 'antd';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Modal, Form, Input, Button, Upload, message } from 'antd';
+import { addCategory, updateCategory } from "../../../api/category";
 
 const AddCategory = (props) => {
-    const { open, onCreate, onCancel } = props
+    const { open, setAddOpen, editCategotyInfo, page_id, getPageInfo } = props
     const [form] = Form.useForm();
+    const [confirmLoading, setConfirmLoading] = useState(false)
+    const isAdd = useMemo(() => {
+        return editCategotyInfo === null
+    }, [editCategotyInfo])
+
+    useEffect(() => {
+        console.log(editCategotyInfo)
+        if (editCategotyInfo !== null) {
+            form.setFieldsValue({
+                ...editCategotyInfo
+            })
+        }
+    }, [editCategotyInfo])
+
+    const handleCreateCategory = async (values) => {
+        setConfirmLoading(true)
+        if (editCategotyInfo !== null) {
+            const res = await updateCategory({ ...values }, editCategotyInfo.category_id)
+            if (res.success) {
+                message.success('保存成功!')
+            }
+        } else {
+            const res = await addCategory({ ...values }, page_id)
+            if (res.success) {
+                message.success('新增成功!')
+            }
+        }
+        setConfirmLoading(false)
+        getPageInfo()
+        setAddOpen(false)
+    };
 
     const handleCreate = () => {
         form.validateFields()
             .then((values) => {
                 form.resetFields();
-                onCreate(values);
+                handleCreateCategory(values);
             })
             .catch((err) => {
                 console.error('Validation failed:', err);
-            });
+            })
     };
 
     return (
         <Modal
             open={open}
-            title="添加分类"
-            okText="添加"
+            title={isAdd ? "新增分类" : "编辑分类"}
+            okText={isAdd ? "新增" : "保存"}
             cancelText="取消"
-            onCancel={onCancel}
+            onCancel={() => setAddOpen(false)}
             onOk={handleCreate}
+            confirmLoading={confirmLoading}
         >
             <Form form={form} layout="vertical">
                 <Form.Item

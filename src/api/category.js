@@ -10,7 +10,13 @@ const deleteCategory = async (category_id) => {
     return res
 }
 
+const updateCategory = async (data, category_id) => {
+    const res = await request.put(`/api/category/${category_id}`, data)
+    return res
+}
+
 export {
     addCategory,
     deleteCategory,
+    updateCategory
 }

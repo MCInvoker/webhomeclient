@@ -1,23 +1,37 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import './index.css'
-// import { mockLinkAll } from './mock'
 import AddLink from "./addLink";
+import { useRequest } from "ahooks";
 import AddCategory from "./addCategory";
 import HoverEditDelete from "../../compenonts/HoverEditDelete";
 import { addLink, deleteLink } from '../../api/link'
-import { addCategory, deleteCategory } from "../../api/category";
+import { deleteCategory } from "../../api/category";
 import { getPage } from "../../api/page";
+import { message } from 'antd';
 
 const SimpleHome = () => {
     const params = new URLSearchParams(window.location.search);
     const page_id = params.get('page_id');
 
-    // const [linkAll, setLinkAll] = useState(mockLinkAll)
     const [page, setPage] = useState()
-    // const [categories, setCategories] = useState([])
-    const [category_id, setCategory_id] = useState('')
+    const [category_id, setCategory_id] = useState(''); // 新增link时的分类id
     const [addLinkOpen, setAddLinkOpen] = useState(false);
     const [addCategoryOpen, setAddCategoryOpen] = useState(false);
+    const [editCategotyInfo, setEditCategotyInfo] = useState(null)
+
+    const getPageInfo = useCallback(() => {
+        async function fetchData () {
+            if (!page_id) return
+            const res = await getPage(page_id);
+            setPage(res.data)
+            // setCategories(res.data.categories)
+        }
+        fetchData();
+    }, [page_id])
+
+    useEffect(() => {
+        getPageInfo()
+    }, []);
 
     const handleLink = (url) => {
         window.open(url, '_blank');
@@ -26,55 +40,51 @@ const SimpleHome = () => {
     const handleAddLink = (category_id) => {
         setCategory_id(category_id)
         setAddLinkOpen(true)
-        console.log(123)
     }
 
-    const handleAddCategory = (category_id) => {
+    const handleAddCategory = () => {
+        setEditCategotyInfo(null)
         setAddCategoryOpen(true)
     }
 
     const handleCreateLink = async (values) => {
         // 处理新增数据的逻辑
         const res = await addLink({ ...values }, category_id)
-    };
-
-    const handleCreateCategory = async (values) => {
-        const res = await addCategory({ ...values }, page_id)
+        getPageInfo()
     };
 
     const handleDeleteLink = async (link_id) => {
         // 处理新增数据的逻辑
         const res = await deleteLink(link_id)
-        console.log(res)
+        getPageInfo()
     };
 
-    const handleDeleteCategory = async (category_id) => {
-        const res = await deleteCategory(category_id)
-    };
-
-
-    useEffect(() => {
-        async function fetchData () {
-            if (!page_id) return
-            const res = await getPage(page_id);
-            setPage(res.data)
-            console.log(res)
-            // setCategories(res.data.categories)
+    const { runAsync: deleteCategoryFn } = useRequest(deleteCategory, {
+        manual: true,
+        onSuccess: () => {
+            message.success('删除成功!')
+            getPageInfo()
         }
-        fetchData();
-    }, [page_id]);
+    });
 
-    const handleCancel = () => {
-        setAddLinkOpen(false);
-    };
+    const handleEditCategory = (category) => {
+        setEditCategotyInfo({
+            category_id: category.category_id,
+            category_name: category.category_name,
+            description: category.description,
+        })
+        setAddCategoryOpen(true)
+    }
+
+
     return <div className='simpleHome'>
         {
             page && page.categories && page.categories.map((category) => {
                 return (
                     <div key={category.category_id} className='category'>
                         <HoverEditDelete
-                            handleDelete={() => handleDeleteCategory(category.category_id)}
-                            handleEdit={() => console.log('handleEdit')}
+                            handleDelete={async () => deleteCategoryFn(category.category_id)}
+                            handleEdit={() => handleEditCategory(category)}
                             top={-46}
                             right={-16}
                         >
@@ -119,8 +129,8 @@ const SimpleHome = () => {
                 )
             })
         }
-        <div className='category' onClick={() => handleAddCategory()}>
-            <div className='linkInitial'>+</div>
+        <div className='category'>
+            <div className='linkInitial' style={{ cursor: 'pointer' }} onClick={() => handleAddCategory()}>+</div>
             <div className='link'>添加分类</div>
         </div>
         <AddLink
@@ -128,10 +138,13 @@ const SimpleHome = () => {
             onCreate={handleCreateLink}
             onCancel={() => setAddLinkOpen(false)}
         />
+
         <AddCategory
             open={addCategoryOpen}
-            onCreate={handleCreateCategory}
-            onCancel={() => setAddCategoryOpen(false)}
+            page_id={page_id}
+            setAddOpen={setAddCategoryOpen}
+            getPageInfo={getPageInfo}
+            editCategotyInfo={editCategotyInfo}
         />
     </div>
 };

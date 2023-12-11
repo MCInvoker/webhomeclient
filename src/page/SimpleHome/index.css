@@ -20,7 +20,7 @@
 .categoryName {
     text-align: center;
     font-size: 36px;
-
+    min-width: 100px;
 }
 
 .links {
