@@ -135,8 +135,10 @@ const SimpleHome = () => {
         </div>
         <AddLink
             open={addLinkOpen}
+            setAddOpen={setAddLinkOpen}
+            category_id={category_id}
             onCreate={handleCreateLink}
-            onCancel={() => setAddLinkOpen(false)}
+            // onCancel={() => setAddLinkOpen(false)}
         />
 
         <AddCategory
