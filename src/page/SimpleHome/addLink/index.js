@@ -1,17 +1,48 @@
-import React, { useState } from 'react';
-import { Modal, Form, Input, Button, Upload } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Modal, Form, Input, message } from 'antd';
+import { addLink, updateLink } from "../../../api/link";
 
 const AddLink = (props) => {
-    const { open, onCreate, onCancel } = props
-    console.log(open)
+    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id } = props
     const [form] = Form.useForm();
+    const [confirmLoading, setConfirmLoading] = useState(false)
+
+    const isAdd = useMemo(() => {
+        return editLinkInfo === null
+    }, [editLinkInfo])
+
+    useEffect(() => {
+        console.log(editLinkInfo)
+        if (editLinkInfo !== null) {
+            form.setFieldsValue({
+                ...editLinkInfo
+            })
+        }
+    }, [editLinkInfo, form])
+
+    const handleCreateLink = async (values) => {
+        setConfirmLoading(true)
+        if (editLinkInfo !== null) {
+            const res = await updateLink({ ...values }, editLinkInfo.link_id)
+            if (res.success) {
+                message.success('保存成功!')
+            }
+        } else {
+            const res = await addLink({ ...values }, category_id)
+            if (res.success) {
+                message.success('新增成功!')
+            }
+        }
+        setConfirmLoading(false)
+        getPageInfo()
+        setAddOpen(false)
+    };
 
     const handleCreate = () => {
         form.validateFields()
             .then((values) => {
                 form.resetFields();
-                onCreate(values);
+                handleCreateLink(values);
             })
             .catch((err) => {
                 console.error('Validation failed:', err);
@@ -21,20 +52,13 @@ const AddLink = (props) => {
     return (
         <Modal
             open={open}
-            title="添加链接"
-            okText="添加"
+            title={isAdd ? '添加链接' : '编辑链接'}
+            okText={isAdd ? "新增" : "保存"}
             cancelText="取消"
-            onCancel={onCancel}
+            onCancel={() => setAddOpen(false)}
             onOk={handleCreate}
+            confirmLoading={confirmLoading}
         >
-            {/* //  {
-        //     "link_id": 1,
-        //     "category_id": 1,
-        //     "link_name": "百度",
-        //     "url": "https://www.baidu.com",
-        //     "description": "百度一下你就知道",
-        //     "created_at": "2023-12-06T02:11:57.000Z"
-        // } */}
             <Form form={form} layout="vertical">
                 <Form.Item
                     name="link_name"
@@ -56,28 +80,6 @@ const AddLink = (props) => {
                 >
                     <Input.TextArea />
                 </Form.Item>
-                {/* <Form.Item
-          name="icon"
-          label="图标"
-        >
-          <Input.TextArea />
-        </Form.Item> */}
-                {/* <Form.Item label="图标">
-                    <Upload action="/upload.do" listType="picture-card">
-                        <div>
-                            <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
-                        </div>
-                    </Upload>
-                </Form.Item> */}
-                {/* <Form.Item label="图标" valuePropName="fileList" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-        </Form.Item> */}
             </Form>
         </Modal>
     );

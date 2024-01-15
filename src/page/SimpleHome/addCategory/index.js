@@ -1,6 +1,6 @@
 // addCategory category
 import React, { useEffect, useMemo, useState } from 'react';
-import { Modal, Form, Input, Button, Upload, message } from 'antd';
+import { Modal, Form, Input, message } from 'antd';
 import { addCategory, updateCategory } from "../../../api/category";
 
 const AddCategory = (props) => {
@@ -12,13 +12,12 @@ const AddCategory = (props) => {
     }, [editCategotyInfo])
 
     useEffect(() => {
-        console.log(editCategotyInfo)
         if (editCategotyInfo !== null) {
             form.setFieldsValue({
                 ...editCategotyInfo
             })
         }
-    }, [editCategotyInfo])
+    }, [editCategotyInfo, form])
 
     const handleCreateCategory = async (values) => {
         setConfirmLoading(true)

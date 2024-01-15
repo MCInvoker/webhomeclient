@@ -17,7 +17,8 @@ const SimpleHome = () => {
     const [category_id, setCategory_id] = useState(''); // 新增link时的分类id
     const [addLinkOpen, setAddLinkOpen] = useState(false);
     const [addCategoryOpen, setAddCategoryOpen] = useState(false);
-    const [editCategotyInfo, setEditCategotyInfo] = useState(null)
+    const [editCategotyInfo, setEditCategotyInfo] = useState(null);
+    const [editLinkInfo, setEditLinkInfo] = useState(null);
 
     const getPageInfo = useCallback(() => {
         async function fetchData () {
@@ -31,7 +32,7 @@ const SimpleHome = () => {
 
     useEffect(() => {
         getPageInfo()
-    }, []);
+    }, [getPageInfo]);
 
     const handleLink = (url) => {
         window.open(url, '_blank');
@@ -39,6 +40,7 @@ const SimpleHome = () => {
 
     const handleAddLink = (category_id) => {
         setCategory_id(category_id)
+        setEditLinkInfo(null)
         setAddLinkOpen(true)
     }
 
@@ -49,15 +51,33 @@ const SimpleHome = () => {
 
     const handleCreateLink = async (values) => {
         // 处理新增数据的逻辑
-        const res = await addLink({ ...values }, category_id)
+        await addLink({ ...values }, category_id)
         getPageInfo()
     };
 
-    const handleDeleteLink = async (link_id) => {
-        // 处理新增数据的逻辑
-        const res = await deleteLink(link_id)
-        getPageInfo()
-    };
+    // const handleDeleteLink = async (link_id) => {
+    //     // 处理新增数据的逻辑
+    //     const res = await deleteLink(link_id)
+    //     getPageInfo()
+    // };
+
+    const { runAsync: deleteLinkFn } = useRequest(deleteLink, {
+        manual: true,
+        onSuccess: () => {
+            message.success('删除成功!')
+            getPageInfo()
+        }
+    });
+
+    const handleEditLink = (link) => {
+        setEditLinkInfo({
+            link_id: link.link_id,
+            link_name: link.link_name,
+            url: link.url,
+            description: link.description,
+        })
+        setAddLinkOpen(true)
+    }
 
     const { runAsync: deleteCategoryFn } = useRequest(deleteCategory, {
         manual: true,
@@ -96,8 +116,8 @@ const SimpleHome = () => {
                                     return (
                                         <div key={link.link_id}>
                                             <HoverEditDelete
-                                                handleDelete={() => handleDeleteLink(link.link_id)}
-                                                handleEdit={() => console.log('handleEdit')}
+                                                handleDelete={async () => deleteLinkFn(link.link_id)}
+                                                handleEdit={() => handleEditLink(link)}
                                                 top={-16}
                                                 right={-16}
                                             >
@@ -138,13 +158,15 @@ const SimpleHome = () => {
             setAddOpen={setAddLinkOpen}
             category_id={category_id}
             onCreate={handleCreateLink}
-            // onCancel={() => setAddLinkOpen(false)}
+            getPageInfo={getPageInfo}
+            editLinkInfo={editLinkInfo}
+        // onCancel={() => setAddLinkOpen(false)}
         />
 
         <AddCategory
             open={addCategoryOpen}
-            page_id={page_id}
             setAddOpen={setAddCategoryOpen}
+            page_id={page_id}
             getPageInfo={getPageInfo}
             editCategotyInfo={editCategotyInfo}
         />
