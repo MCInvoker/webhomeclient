@@ -1,0 +1,29 @@
+.pages {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #f2f2f2;
+    width: 100%;
+    margin-bottom: 50px;
+}
+
+.page {
+    line-height: 50px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    margin-right: 8px;
+    min-width: 100px;
+}
+
+.page:hover {
+    color: #31c27c;
+}
+
+.active {
+    color: #31c27c;
+}
+
+.addPage {
+    cursor: pointer;
+}

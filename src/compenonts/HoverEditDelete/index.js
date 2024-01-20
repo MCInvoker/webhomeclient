@@ -12,6 +12,8 @@ const HoverEditDelete = ({
     right = 0,
     deleteTitle = '删除',
     deleteDescription = '确定要删除吗?',
+    key,
+    positionStyle
 }) => {
     const [showIcon, setShowIcon] = useState(false);
     let hoverTimer;
@@ -36,6 +38,7 @@ const HoverEditDelete = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             style={{ position: "relative", display: "inline-block" }}
+            key={key}
         >
             {children}
             {showIcon && (
@@ -44,12 +47,14 @@ const HoverEditDelete = ({
                         position: "absolute",
                         top,
                         right,
+                        width: '80px',
                         cursor: "pointer",
                         // background: "#f5f5f5",
                         background: "#fff",
                         padding: "10px",
                         borderRadius: '5px',
-                        boxShadow: '0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)'
+                        boxShadow: '0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
+                        ...positionStyle
                     }}
                 >
                     <Button style={{ marginRight: '8px' }} shape="circle" icon={<EditOutlined />} onClick={() => handleEdit && handleEdit()} />

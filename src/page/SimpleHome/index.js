@@ -4,15 +4,17 @@ import AddLink from "./addLink";
 import { useRequest } from "ahooks";
 import AddCategory from "./addCategory";
 import HoverEditDelete from "../../compenonts/HoverEditDelete";
+import MyPages from "./myPages";
 import { addLink, deleteLink } from '../../api/link'
 import { deleteCategory } from "../../api/category";
-import { getPage } from "../../api/page";
+import { getPage, getPages } from "../../api/page";
 import { message } from 'antd';
 
 const SimpleHome = () => {
-    const params = new URLSearchParams(window.location.search);
-    const page_id = params.get('page_id');
-
+    // const params = new URLSearchParams(window.location.search);
+    // const page_id = params.get('page_id');
+    const [page_id, setPage_id] = useState('')
+    const [pages, setPages] = useState([])
     const [page, setPage] = useState()
     const [category_id, setCategory_id] = useState(''); // 新增link时的分类id
     const [addLinkOpen, setAddLinkOpen] = useState(false);
@@ -29,6 +31,23 @@ const SimpleHome = () => {
         }
         fetchData();
     }, [page_id])
+
+    const getPagesFn = useCallback(() => {
+        async function fetchData () {
+            const res = await getPages();
+            console.log(res)
+            setPages(res.data)
+            if (res?.data.length > 0) {
+                setPage_id(res.data[0].page_id)
+            }
+            // setCategories(res.data.categories)
+        }
+        fetchData();
+    }, [])
+
+    useEffect(() => {
+        getPagesFn()
+    }, [getPagesFn])
 
     useEffect(() => {
         getPageInfo()
@@ -98,6 +117,7 @@ const SimpleHome = () => {
 
 
     return <div className='simpleHome'>
+        <MyPages getPagesFn={getPagesFn} pages={pages} setPage_id={setPage_id} page_id={page_id}></MyPages>
         {
             page && page.categories && page.categories.map((category) => {
                 return (
