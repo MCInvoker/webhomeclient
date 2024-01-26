@@ -1,0 +1,114 @@
+.AccountPassword {
+    /* height: 270px; */
+}
+
+.inputLi {
+    padding: 8px 0;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.usernameInputLi {
+    background-color: #f0f0f0;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+.passwordInputLi {
+    background-color: #fff;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.inputLeftIcon {
+    margin: 0 16px;
+    color: #000;
+}
+
+.inputContent {
+    flex: 1;
+}
+
+.inputLabel {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+.input {
+    border: none;
+    line-height: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.usernameInput {
+    width: 100%;
+    background-color: #f0f0f0;
+}
+
+.passwordInput {
+    width: 100%;
+    background-color: #fff;
+}
+
+.input:focus {
+    border-color: none;
+    outline: none;
+}
+
+.rfPassword {
+    margin: 16px 0;
+    padding: 0 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rememberPassword {
+    position: relative;
+    padding-left: 20px;
+    cursor: pointer;
+}
+
+.rememberPasswordIcon {
+    position: absolute;
+    left: 0;
+    color: #8c8c8c;
+}
+
+.isRememberPassword {
+    /* color: #00b96b; */
+    color: #000;
+}
+
+.forgotPassword {
+    cursor: pointer;
+}
+
+.forgotPassword:hover {
+    /* color: #00b96b; */
+    /* color: #000; */
+    font-weight: bolder;
+}
+
+.loginButton {
+    width: 100%;
+    /* background-color: #00b96b; */
+    /* background-color: #1890ff; */
+    background-color: #000;
+    color: #fff;
+    border: none;
+    line-height: 40px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.loginButton:hover {
+    transform: scale(1.01);
+    /* 鼠标悬停时放大 */
+}

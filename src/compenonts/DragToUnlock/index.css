@@ -1,0 +1,60 @@
+.slider-container {
+    user-select: none;
+}
+
+.slider-bar {
+    width: 100%;
+    height: 40px;
+    background-color: #eaeaea;
+    position: relative;
+    border-radius: 4px;
+}
+
+.slider-bar-success {
+    background-color: #fff;
+    /* color: #00b96b; */
+    color: #000;
+}
+
+.sliderfff {
+    position: absolute;
+    width: 0;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.slider-tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.slider-button {
+    width: 40px;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    border-radius: 4px;
+}
+
+.toRight {
+    font-size: 20px;
+    color: #8c8c8c;
+}
+
+.chenggong {
+    font-size: 20px;
+    color: #000;
+    /* color: #00b96b; */
+}

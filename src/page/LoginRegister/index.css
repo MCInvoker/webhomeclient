@@ -1,0 +1,92 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+    /* background: linear-gradient(to right, #1fa2ff, #12d8fa, #a6ffcb); */
+    /* background: #fff; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-image: url('../../image/xiangsufeng.png'); */
+    background-image: url('../../image/xingkong.png');
+    background-repeat: repeat;
+}
+
+
+.loginCenter {
+    width: 800px;
+    height: 530px;
+    background-color: #fafafa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px -4px rgba(0, 0, 0, .13), 0 6px 16px 0 rgba(0, 0, 0, .08), 0 12px 24px 16px rgba(0, 0, 0, .04);
+    padding: 20px 40px;
+    box-sizing: border-box;
+}
+
+.logo {
+    text-align: left;
+    line-height: 46px;
+    font-size: 36px;
+    font-weight: bolder;
+}
+
+.bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left {
+    width: 460px;
+    margin-right: 20px;
+}
+
+.left img {
+    width: 100%;
+}
+
+.right {
+    width: 300px;
+}
+
+.welcome {
+    font-size: 32px;
+    color: #000;
+    margin: 20px 0 20px;
+}
+
+.loginList {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.loginLi {
+    background-color: #fff;
+    line-height: 32px;
+    border-radius: 16px;
+    padding: 0 16px;
+    color: #8c8c8c;
+    cursor: pointer;
+}
+
+.loginLiActive {
+    background-color: #000;
+    /* background-color: #1890ff; */
+    color: #fff;
+}
+
+.registerBox {
+    margin: 16px 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.register {
+    cursor: pointer;
+}
+
+.register:hover {
+    /* color: #00b96b; */
+    font-weight: bolder;
+}
