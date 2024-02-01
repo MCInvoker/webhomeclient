@@ -123,23 +123,12 @@ function SimpleHome() {
                     top={-16}
                     right={-16}
                   >
-                    <div
-                      className="linkBox"
-                      onClick={() => handleLink(link.url)}
-                    >
+                    <div className="linkBox" onClick={() => handleLink(link.url)}>
                       {link.icon && (
-                        <img
-                          className="linkImg"
-                          src={link.icon}
-                          alt={link.title || ''}
-                        />
+                        <img className="linkImg" src={link.icon} alt={link.title || ''} />
                         // <img className='linkImg' src="logo192.png" alt={link.title || ''}></img>
                       )}
-                      {!link.icon && (
-                        <div className="linkInitial">
-                          {link.link_name[0] || ''}
-                        </div>
-                      )}
+                      {!link.icon && <div className="linkInitial">{link.link_name[0] || ''}</div>}
                       <div className="link" href={link.url} key={link.link_id}>
                         {link.link_name}
                       </div>
@@ -147,10 +136,7 @@ function SimpleHome() {
                   </HoverEditDelete>
                 </div>
               ))}
-              <div
-                className="linkBox"
-                onClick={() => handleAddLink(category.category_id)}
-              >
+              <div className="linkBox" onClick={() => handleAddLink(category.category_id)}>
                 <div className="linkInitial">+</div>
                 <div className="link">添加链接</div>
               </div>

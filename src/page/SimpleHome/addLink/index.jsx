@@ -1,15 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 
-import {
-  Modal, Form, Input, message,
-} from 'antd';
+import { Modal, Form, Input, message } from 'antd';
 
 import { addLink, updateLink } from '../../../api/link';
 
 function AddLink(props) {
-  const {
-    open, setAddOpen, editLinkInfo, getPageInfo, category_id,
-  } = props;
+  const { open, setAddOpen, editLinkInfo, getPageInfo, category_id } = props;
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
 
@@ -43,7 +39,8 @@ function AddLink(props) {
   };
 
   const handleCreate = () => {
-    form.validateFields()
+    form
+      .validateFields()
       .then((values) => {
         form.resetFields();
         handleCreateLink(values);
@@ -78,10 +75,7 @@ function AddLink(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="description"
-          label="描述"
-        >
+        <Form.Item name="description" label="描述">
           <Input.TextArea />
         </Form.Item>
       </Form>

@@ -1,0 +1,3 @@
+{ 
+  "editor.formatOnSave": true // 保存后自动格式化
+}

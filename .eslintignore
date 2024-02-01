@@ -1,0 +1,14 @@
+# Ignore artifacts:
+/node_modules
+/public
+/dist
+/build
+/config
+README.md
+package.lock
+package.json
+settings.json
+*.png
+*.eot
+*.ttf
+*.woff

@@ -1,16 +1,12 @@
 // addCategory category
 import React, { useEffect, useMemo, useState } from 'react';
 
-import {
-  Modal, Form, Input, message,
-} from 'antd';
+import { Modal, Form, Input, message } from 'antd';
 
 import { addCategory, updateCategory } from '../../../api/category';
 
 function AddCategory(props) {
-  const {
-    open, setAddOpen, editCategotyInfo, page_id, getPageInfo,
-  } = props;
+  const { open, setAddOpen, editCategotyInfo, page_id, getPageInfo } = props;
   const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const isAdd = useMemo(() => editCategotyInfo === null, [editCategotyInfo]);
@@ -42,7 +38,8 @@ function AddCategory(props) {
   };
 
   const handleCreate = () => {
-    form.validateFields()
+    form
+      .validateFields()
       .then((values) => {
         form.resetFields();
         handleCreateCategory(values);
@@ -70,10 +67,7 @@ function AddCategory(props) {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="description"
-          label="描述"
-        >
+        <Form.Item name="description" label="描述">
           <Input.TextArea />
         </Form.Item>
       </Form>

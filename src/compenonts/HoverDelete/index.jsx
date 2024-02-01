@@ -3,12 +3,7 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
-function HoverDelete({
-  children,
-  showDelayTime = 2000,
-  hiddenDelayTime = 2000,
-  handleDelete,
-}) {
+function HoverDelete({ children, showDelayTime = 2000, hiddenDelayTime = 2000, handleDelete }) {
   const [showIcon, setShowIcon] = useState(false);
   let hoverTimer;
   let leaveTimer;
