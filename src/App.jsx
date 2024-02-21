@@ -1,7 +1,8 @@
 import './App.css';
-import React, { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import SimpleHome from './page/SimpleHome/index';
+import SimpleHome from './page/SimpleHome';
 import Me from './page/Me/index';
 import LoginRegister from './page/LoginRegister';
 
