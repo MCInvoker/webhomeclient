@@ -12,7 +12,6 @@ function AddLink(props) {
   const isAdd = useMemo(() => editLinkInfo === null, [editLinkInfo]);
 
   useEffect(() => {
-    console.log(editLinkInfo);
     if (editLinkInfo !== null) {
       form.setFieldsValue({
         ...editLinkInfo,
@@ -45,9 +44,7 @@ function AddLink(props) {
         form.resetFields();
         handleCreateLink(values);
       })
-      .catch((err) => {
-        console.error('Validation failed:', err);
-      });
+      .catch(() => {});
   };
 
   return (

@@ -44,9 +44,7 @@ function AddCategory(props) {
         form.resetFields();
         handleCreateCategory(values);
       })
-      .catch((err) => {
-        console.error('Validation failed:', err);
-      });
+      .catch(() => {});
   };
 
   return (

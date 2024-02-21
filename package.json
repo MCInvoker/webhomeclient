@@ -27,7 +27,8 @@
         "extends": [
             "react-app",
             "react-app/jest"
-        ]
+        ],
+        "noEmitOnError": false
     },
     "browserslist": {
         "production": [

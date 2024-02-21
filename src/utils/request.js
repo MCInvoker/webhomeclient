@@ -29,7 +29,6 @@ request.interceptors.response.use(
     return response.data;
   },
   (error) => {
-    console.log(error);
     // 响应错误处理
     return Promise.reject(error);
   },
