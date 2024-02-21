@@ -1,11 +1,14 @@
 module.exports = {
-  extends: [
-    'airbnb',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-  ],
+  extends: ['airbnb', 'plugin:react/recommended', 'plugin:react-hooks/recommended'],
   // plugins: ['import'],
   rules: {
+    'import/no-extraneous-dependencies': [
+      0,
+      {
+        devDependencies: true,
+        peerDependencies: true,
+      },
+    ],
     'no-trailing-spaces': 0,
     'padded-blocks': 0,
     'object-curly-newline': 0,
@@ -18,19 +21,12 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     camelcase: 0,
+    'operator-linebreak': ['error', 'after'], // 或者 'after'
     'no-unused-vars': 2,
     'import/order': [
       2,
       {
-        groups: [
-          'builtin',
-          'external',
-          'internal',
-          'parent',
-          'sibling',
-          'index',
-          'unknown',
-        ],
+        groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index', 'unknown'],
         pathGroups: [
           {
             pattern: 'react*',

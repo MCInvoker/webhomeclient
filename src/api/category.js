@@ -15,8 +15,4 @@ const updateCategory = async (data, category_id) => {
   return res;
 };
 
-export {
-  addCategory,
-  deleteCategory,
-  updateCategory,
-};
+export { addCategory, deleteCategory, updateCategory };

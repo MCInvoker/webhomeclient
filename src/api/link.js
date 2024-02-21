@@ -20,16 +20,10 @@ const getConfig = async () => {
     const res = await request.get('/config');
     return res;
   } catch (error) {
-    console.error('请求失败:', error);
     return {
       config: '',
     };
   }
 };
 
-export {
-  addLink,
-  deleteLink,
-  updateLink,
-  getConfig,
-};
+export { addLink, deleteLink, updateLink, getConfig };

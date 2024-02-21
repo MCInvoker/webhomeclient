@@ -102,9 +102,9 @@ function SimpleHome() {
 
   return (
     <div className="simpleHome">
-      {page
-        && page.categories
-        && page.categories.map((category) => (
+      {page &&
+        page.categories &&
+        page.categories.map((category) => (
           <div key={category.category_id} className="category">
             <HoverEditDelete
               handleDelete={async () => deleteCategoryFn(category.category_id)}
