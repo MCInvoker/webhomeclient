@@ -12,6 +12,7 @@ function App() {
       <div className="App">
         <Me />
         <Routes>
+          {/* http://localhost:3000/home?page_id=1 */}
           <Route path="/home" element={<SimpleHome />} />
           <Route path="/login" element={<LoginRegister />} />
         </Routes>
