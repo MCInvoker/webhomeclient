@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // 创建axios实例
 const request = axios.create({
-//   baseURL: 'http://127.0.0.1:7001', // API 请求的base URL
-  baseURL: 'http://47.97.212.228:7001', // 服务区ip
+  // baseURL: 'http://127.0.0.1:7001', // API 请求的base URL
+  // baseURL: 'http://47.97.212.228:7001', // 服务区ip
   timeout: 10000, // 请求超时时间
 });
 
