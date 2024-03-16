@@ -1,4 +1,5 @@
 import axios from 'axios';
+import CryptoJS from 'crypto-js';
 
 // 创建axios实例
 const request = axios.create({
@@ -26,6 +27,13 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
+    if (response.status === 401) {
+      // 对路径进行加解密主要不是为了安全问题，而是防止路径中出现多个问号?导致路径参数解析混乱
+      const path = window.location.href;
+      const encryptPath = CryptoJS.AES.encrypt(path, 'path').toString();
+      let url = `${window.location.origin}/login?path=${encryptPath}`;
+      window.location.href = url;
+    }
     // 响应数据处理
     return response.data;
   },

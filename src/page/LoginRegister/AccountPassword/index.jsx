@@ -1,24 +1,48 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import CryptoJS from 'crypto-js';
 
 import { message } from 'antd';
 import './index.css';
 import classNames from 'classnames';
 import { useRequest } from 'ahooks';
+import { getUrlParams } from '../../../utils/utils';
 
 import DragToUnlock from '../../../compenonts/DragToUnlock';
 import { login } from '../../../api/user';
+import { getPages } from '../../../api/page';
 
 function AccountPassword() {
+  const navigate = useNavigate();
   const [isRememberPassword, setIsRememberPassword] = useState(false);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isDrag, setIsDrag] = useState(false);
 
+  const { run: getPagesFn } = useRequest(getPages, {
+    manual: true,
+    onSuccess: (res) => {
+      const page_id = res.data[0].page_id;
+      navigate(`/home?page_id=${page_id}`);
+    },
+  });
+
   const { run, loading } = useRequest(login, {
     debounceWait: 300,
     manual: true,
-    onSuccess: () => {},
+    onSuccess: (res) => {
+      console.log(res);
+      localStorage.setItem('token', res.token);
+      const path = getUrlParams('path');
+      if (path) {
+        const decryptedBytes = CryptoJS.AES.decrypt(path, 'path');
+        const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
+        window.location.href = decryptedString;
+      } else {
+        getPagesFn();
+      }
+    },
   });
 
   const handleSuccess = () => {
@@ -50,7 +74,7 @@ function AccountPassword() {
       return;
     }
     run({
-      username,
+      account: username,
       password,
     });
   };
@@ -85,7 +109,6 @@ function AccountPassword() {
       <DragToUnlock onSuccess={handleSuccess} />
       <div className="rfPassword">
         <div className="rememberPassword" onClick={handleRememberPassword}>
-          {/* <i className="iconfont icon-chenggong rememberPasswordIcon"></i> */}
           <i
             className={classNames({
               iconfont: true,
