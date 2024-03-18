@@ -1,0 +1,95 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 2018,
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "import"
+    ],
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                // "map": [
+                //     [
+                //         "@components",
+                //         "./src/components",
+                //         "./src"
+                //     ]
+                //     // 在这里添加你的路径别名映射
+                // ],
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        }
+    },
+    "rules": {
+        // 确保导入的模块存在
+        "import/no-unresolved": "error",
+        // 确保默认导出的模块名和文件名一致
+        "import/default": "error",
+        // 确保命名导出的模块名和文件名一致
+        "import/named": "error",
+        // 确保导入路径的顺序正确
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin",
+                    "external",
+                    "internal",
+                    "parent",
+                    "sibling",
+                    "index",
+                    "unknown"
+                ],
+                "pathGroups": [
+                    {
+                        "pattern": "react*",
+                        "group": "builtin",
+                        "position": "before"
+                    },
+                    {
+                        "pattern": "@/**",
+                        "group": "external",
+                        "position": "after"
+                    }
+                ],
+                "pathGroupsExcludedImportTypes": [
+                    "react",
+                    "@ant-design",
+                    "umi",
+                    "@/**"
+                ],
+                "newlines-between": "always"
+            }
+        ],
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never"
+            }
+        ],
+        // 组件的props不进行类型检测
+        "react/prop-types": "off"
+    }
+}

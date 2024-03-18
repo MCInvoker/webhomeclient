@@ -3,14 +3,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useRequest } from 'ahooks';
 import { message } from 'antd';
 
-import HoverEditDelete from '../../compenonts/HoverEditDelete';
-import { addLink, deleteLink } from '../../api/link';
 import { deleteCategory } from '../../api/category';
+import { addLink, deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
+import HoverEditDelete from '../../compenonts/HoverEditDelete';
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
-
 import './index.css';
 
 function SimpleHome() {

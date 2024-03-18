@@ -1,7 +1,7 @@
-import './index.css';
 import React, { useState } from 'react';
 
 import classNames from 'classnames';
+import './index.css';
 
 import loginhome from '../../image/long.svg';
 

@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CryptoJS from 'crypto-js';
 
-import { message } from 'antd';
-import './index.css';
-import classNames from 'classnames';
 import { useRequest } from 'ahooks';
-import { getUrlParams } from '../../../utils/utils';
+import { message } from 'antd';
+import classNames from 'classnames';
+import CryptoJS from 'crypto-js';
+import './index.css';
 
-import DragToUnlock from '../../../compenonts/DragToUnlock';
-import { login } from '../../../api/user';
 import { getPages } from '../../../api/page';
+import { login } from '../../../api/user';
+import DragToUnlock from '../../../compenonts/DragToUnlock';
+import { getUrlParams } from '../../../utils/utils';
 
 function AccountPassword() {
   const navigate = useNavigate();

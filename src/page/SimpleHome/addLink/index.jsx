@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import { Modal, Form, Input, message } from 'antd';
+import { Form, Input, Modal, message } from 'antd';
 
 import { addLink, updateLink } from '../../../api/link';
 
@@ -44,7 +44,7 @@ function AddLink(props) {
         form.resetFields();
         handleCreateLink(values);
       })
-      .catch(() => {});
+      .catch(() => { });
   };
 
   return (

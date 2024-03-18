@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 
-import { useRequest } from 'ahooks';
-import classNames from 'classnames';
 import { PlusOutlined } from '@ant-design/icons';
+import { useRequest } from 'ahooks';
 import { message } from 'antd';
+import classNames from 'classnames';
 
 import { deletePage } from '../../../api/page';
-import './index.css';
-import AddPage from '../addPage';
 import HoverEditDelete from '../../../compenonts/HoverEditDelete';
+import AddPage from '../addPage';
+import './index.css';
 
 function MyPages(props) {
   const { pages, setPage_id, page_id, getPagesFn } = props;

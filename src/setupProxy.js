@@ -1,5 +1,6 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
+// eslint-disable-next-line no-undef
 module.exports = function (app) {
   app.use(
     createProxyMiddleware('/api', {

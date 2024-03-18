@@ -6,18 +6,18 @@
 
 // 以下是一个基本的示例，展示了如何在React应用中使用嵌套路由：
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 
 // 定义一些基本组件
-function Home () {
+function Home() {
     return <h2>主页</h2>;
 }
 
-function About () {
+function About() {
     return <h2>关于</h2>;
 }
 
-function Topics () {
+function Topics() {
     return (
         <div>
             <h2>主题列表</h2>
@@ -37,12 +37,12 @@ function Topics () {
     );
 }
 
-function Topic () {
+function Topic() {
     return <h3>选定的主题</h3>;
 }
 
 // 应用的主组件
-function App () {
+function App() {
     return (
         <Router>
             <div>
