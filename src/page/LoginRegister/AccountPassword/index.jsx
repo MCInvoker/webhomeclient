@@ -32,13 +32,17 @@ function AccountPassword() {
     debounceWait: 300,
     manual: true,
     onSuccess: (res) => {
-      console.log(res);
       localStorage.setItem('token', res.token);
       const path = getUrlParams('path');
       if (path) {
-        const decryptedBytes = CryptoJS.AES.decrypt(path, 'path');
-        const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
-        window.location.href = decryptedString;
+        try {
+          const decryptedBytes = CryptoJS.AES.decrypt(path, 'path');
+          const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
+          window.location.href = decryptedString;
+        } catch (error) {
+          console.log(error)
+          getPagesFn();
+        }
       } else {
         getPagesFn();
       }
