@@ -1,5 +1,6 @@
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import { message } from 'antd';
 
 // 创建axios实例
 const request = axios.create({
@@ -40,6 +41,7 @@ request.interceptors.response.use(
         let url = `${window.location.origin}/login?path=${encryptPath}`;
         window.location.href = url;
       }
+      message.error(error.response.data.message)
     } catch (err) {
       console.log(err)
     }

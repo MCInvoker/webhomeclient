@@ -4,7 +4,7 @@ import { useRequest } from 'ahooks';
 import { message } from 'antd';
 
 import { deleteCategory } from '../../api/category';
-import { addLink, deleteLink } from '../../api/link';
+import { deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
 import HoverEditDelete from '../../compenonts/HoverEditDelete';
 
@@ -12,7 +12,7 @@ import AddCategory from './addCategory';
 import AddLink from './addLink';
 import './index.css';
 
-function SimpleHome() {
+function SimpleHome () {
   const params = new URLSearchParams(window.location.search);
   const page_id = params.get('page_id');
 
@@ -24,7 +24,7 @@ function SimpleHome() {
   const [editLinkInfo, setEditLinkInfo] = useState(null);
 
   const getPageInfo = useCallback(() => {
-    async function fetchData() {
+    async function fetchData () {
       if (!page_id) return;
       const res = await getPage(page_id);
       setPage(res.data);
@@ -51,18 +51,6 @@ function SimpleHome() {
     setEditCategotyInfo(null);
     setAddCategoryOpen(true);
   };
-
-  const handleCreateLink = async (values) => {
-    // 处理新增数据的逻辑
-    await addLink({ ...values }, category_id);
-    getPageInfo();
-  };
-
-  // const handleDeleteLink = async (link_id) => {
-  //     // 处理新增数据的逻辑
-  //     const res = await deleteLink(link_id)
-  //     getPageInfo()
-  // };
 
   const { runAsync: deleteLinkFn } = useRequest(deleteLink, {
     manual: true,
@@ -156,7 +144,6 @@ function SimpleHome() {
         open={addLinkOpen}
         setAddOpen={setAddLinkOpen}
         category_id={category_id}
-        onCreate={handleCreateLink}
         getPageInfo={getPageInfo}
         editLinkInfo={editLinkInfo}
       />

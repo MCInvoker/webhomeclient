@@ -1,83 +1,89 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { Form, Input, Modal, message } from 'antd';
+import { useRequest } from 'ahooks';
 
 import { addLink, updateLink } from '../../../api/link';
 
-function AddLink(props) {
-  const { open, setAddOpen, editLinkInfo, getPageInfo, category_id } = props;
-  const [form] = Form.useForm();
-  const [confirmLoading, setConfirmLoading] = useState(false);
+function AddLink (props) {
+    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id } = props;
+    const [form] = Form.useForm();
+    const { run: addLinkFn, loading: addLoading } = useRequest(addLink, {
+        manual: true,
+        onSuccess: () => {
+            message.success('新增成功!');
+            setAddOpen(false);
+            form.resetFields();
+        },
+    });
+    const { run: updateLinkFn, loading: updateLoading } = useRequest(updateLink, {
+        manual: true,
+        onSuccess: () => {
+            message.success('保存成功!');
+            setAddOpen(false);
+            form.resetFields();
+        }
+    });
 
-  const isAdd = useMemo(() => editLinkInfo === null, [editLinkInfo]);
+    const isAdd = useMemo(() => editLinkInfo === null, [editLinkInfo]);
 
-  useEffect(() => {
-    if (editLinkInfo !== null) {
-      form.setFieldsValue({
-        ...editLinkInfo,
-      });
-    }
-  }, [editLinkInfo, form]);
+    useEffect(() => {
+        if (editLinkInfo !== null) {
+            form.setFieldsValue({
+                ...editLinkInfo,
+            });
+        }
+    }, [editLinkInfo, form]);
 
-  const handleCreateLink = async (values) => {
-    setConfirmLoading(true);
-    if (editLinkInfo !== null) {
-      const res = await updateLink({ ...values }, editLinkInfo.link_id);
-      if (res.success) {
-        message.success('保存成功!');
-      }
-    } else {
-      const res = await addLink({ ...values }, category_id);
-      if (res.success) {
-        message.success('新增成功!');
-      }
-    }
-    setConfirmLoading(false);
-    getPageInfo();
-    setAddOpen(false);
-  };
+    const handleCreateLink = async (values) => {
+        if (editLinkInfo !== null) {
+            updateLinkFn({ ...values }, editLinkInfo.link_id)
+        } else {
+            addLinkFn({ ...values }, category_id)
+        }
+        getPageInfo();
+    };
 
-  const handleCreate = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        form.resetFields();
-        handleCreateLink(values);
-      })
-      .catch(() => { });
-  };
+    const handleCreate = () => {
+        form
+            .validateFields()
+            .then((values) => {
+                handleCreateLink(values);
+            })
+            .catch(() => { });
+    };
 
-  return (
-    <Modal
-      open={open}
-      title={isAdd ? '添加链接' : '编辑链接'}
-      okText={isAdd ? '新增' : '保存'}
-      cancelText="取消"
-      onCancel={() => setAddOpen(false)}
-      onOk={handleCreate}
-      confirmLoading={confirmLoading}
-    >
-      <Form form={form} layout="vertical">
-        <Form.Item
-          name="link_name"
-          label="名称"
-          rules={[{ required: true, message: '请输入链接名称!' }]}
+    return (
+        <Modal
+            open={open}
+            title={isAdd ? '添加链接' : '编辑链接'}
+            okText={isAdd ? '新增' : '保存'}
+            cancelText="取消"
+            onCancel={() => setAddOpen(false)}
+            onOk={handleCreate}
+            confirmLoading={addLoading || updateLoading}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="url"
-          label="地址"
-          rules={[{ required: true, message: '请输入链接网络地址!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name="description" label="描述">
-          <Input.TextArea />
-        </Form.Item>
-      </Form>
-    </Modal>
-  );
+            <Form form={form} layout="vertical">
+                <Form.Item
+                    name="link_name"
+                    label="名称"
+                    rules={[{ required: true, message: '请输入链接名称!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item
+                    name="url"
+                    label="地址"
+                    rules={[{ required: true, message: '请输入链接网络地址!' }]}
+                >
+                    <Input />
+                </Form.Item>
+                <Form.Item name="description" label="描述">
+                    <Input.TextArea />
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
 }
 
 export default AddLink;
