@@ -6,13 +6,13 @@ import { message } from 'antd';
 import { deleteCategory } from '../../api/category';
 import { deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
-import HoverEditDelete from '../../compenonts/HoverEditDelete';
+import HoverEditDelete from '../../components/HoverEditDelete';
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
 import './index.css';
 
-function SimpleHome () {
+function SimpleHome() {
   const params = new URLSearchParams(window.location.search);
   const page_id = params.get('page_id');
 
@@ -24,7 +24,7 @@ function SimpleHome () {
   const [editLinkInfo, setEditLinkInfo] = useState(null);
 
   const getPageInfo = useCallback(() => {
-    async function fetchData () {
+    async function fetchData() {
       if (!page_id) return;
       const res = await getPage(page_id);
       setPage(res.data);

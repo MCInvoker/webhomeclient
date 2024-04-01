@@ -6,7 +6,7 @@ import { message } from 'antd';
 import classNames from 'classnames';
 
 import { deletePage } from '../../../api/page';
-import HoverEditDelete from '../../../compenonts/HoverEditDelete';
+import HoverEditDelete from '../../../components/HoverEditDelete';
 import AddPage from '../addPage';
 import './index.css';
 

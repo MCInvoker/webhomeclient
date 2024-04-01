@@ -9,7 +9,7 @@ import './index.css';
 
 import { getPages } from '../../../api/page';
 import { login } from '../../../api/user';
-import DragToUnlock from '../../../compenonts/DragToUnlock';
+import DragToUnlock from '../../../components/DragToUnlock';
 import { getUrlParams } from '../../../utils/utils';
 
 function AccountPassword() {
@@ -40,7 +40,7 @@ function AccountPassword() {
           const decryptedString = decryptedBytes.toString(CryptoJS.enc.Utf8);
           window.location.href = decryptedString;
         } catch (error) {
-          console.log(error)
+          console.log(error);
           getPagesFn();
         }
       } else {
