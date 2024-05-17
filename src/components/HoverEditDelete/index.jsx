@@ -6,7 +6,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 function HoverEditDelete ({
     children,
     showDelayTime = 500,
-    hiddenDelayTime = 200000,
+    hiddenDelayTime = 2000,
     handleEdit,
     handleDelete,
     positionStyle = {},
