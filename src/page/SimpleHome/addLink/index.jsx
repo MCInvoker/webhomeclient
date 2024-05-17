@@ -6,13 +6,14 @@ import { useRequest } from 'ahooks';
 import { addLink, updateLink } from '../../../api/link';
 
 function AddLink (props) {
-    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id, categories } = props;
+    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id, categories, page_id } = props;
     const [form] = Form.useForm();
     const { run: addLinkFn, loading: addLoading } = useRequest(addLink, {
         manual: true,
         onSuccess: () => {
             message.success('新增成功!');
             setAddOpen(false);
+            getPageInfo();
             form.resetFields();
         },
     });
@@ -22,6 +23,7 @@ function AddLink (props) {
             message.success('保存成功!');
             setAddOpen(false);
             form.resetFields();
+            getPageInfo();
         }
     });
 
@@ -51,9 +53,9 @@ function AddLink (props) {
                 link_name: values.link_name,
                 url: values.url,
                 description: values.description,
+                page_id,
             }, values.category_id)
         }
-        getPageInfo();
     };
 
     const handleCreate = () => {

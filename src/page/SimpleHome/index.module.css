@@ -98,6 +98,11 @@
     margin-top: 6px;
     margin-bottom: 4px;
     color: #1e1e23;
+    /* 以动态计算的宽度为准 */
+    width: 140px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .linkUrl {

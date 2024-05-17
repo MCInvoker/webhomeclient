@@ -180,10 +180,10 @@ function SimpleHome () {
                                                 {!link.icon && <div className={Styles.linkInitial}>{link.link_name[0] || ''}</div>}
                                             </div>
                                             <div className={Styles.linkItemRight}>
-                                                <div className={Styles.linkName} href={link.url}>
+                                                <div className={Styles.linkName} style={{ width: linkUrlWidth }}>
                                                     {link.link_name}
                                                 </div>
-                                                <div className={Styles.linkUrl} href={link.url} style={{ width: linkUrlWidth }}>
+                                                <div className={Styles.linkUrl} style={{ width: linkUrlWidth }}>
                                                     {link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}
                                                 </div>
                                             </div>
@@ -207,6 +207,7 @@ function SimpleHome () {
                 getPageInfo={getPageInfo}
                 editLinkInfo={editLinkInfo}
                 categories={categories}
+                page_id={page_id}
             />}
 
             {addCategoryOpen && <AddCategory
