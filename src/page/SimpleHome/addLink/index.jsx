@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 
-import { Form, Input, Modal, message } from 'antd';
+import { Form, Input, Modal, Select, message } from 'antd';
 import { useRequest } from 'ahooks';
 
 import { addLink, updateLink } from '../../../api/link';
 
 function AddLink (props) {
-    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id } = props;
+    const { open, setAddOpen, editLinkInfo, getPageInfo, category_id, categories } = props;
     const [form] = Form.useForm();
     const { run: addLinkFn, loading: addLoading } = useRequest(addLink, {
         manual: true,
@@ -32,14 +32,26 @@ function AddLink (props) {
             form.setFieldsValue({
                 ...editLinkInfo,
             });
+        } else if (category_id) {
+            form.setFieldsValue({
+                category_id
+            });
+        } else if (categories) {
+            form.setFieldsValue({
+                category_id: categories[0].value
+            });
         }
-    }, [editLinkInfo, form]);
+    }, [editLinkInfo, form, categories, category_id]);
 
     const handleCreateLink = async (values) => {
         if (editLinkInfo !== null) {
             updateLinkFn({ ...values }, editLinkInfo.link_id)
         } else {
-            addLinkFn({ ...values }, category_id)
+            addLinkFn({
+                link_name: values.link_name,
+                url: values.url,
+                description: values.description,
+            }, values.category_id)
         }
         getPageInfo();
     };
@@ -77,6 +89,15 @@ function AddLink (props) {
                     rules={[{ required: true, message: '请输入链接网络地址!' }]}
                 >
                     <Input />
+                </Form.Item>
+                <Form.Item
+                    name="category_id"
+                    label="所属分类"
+                    rules={[{ required: true, message: '请选择所属分类!' }]}
+                >
+                    <Select
+                        options={categories}
+                    ></Select>
                 </Form.Item>
                 <Form.Item name="description" label="描述">
                     <Input.TextArea />

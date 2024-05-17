@@ -39,6 +39,7 @@ request.interceptors.response.use(
         const path = window.location.href;
         const encryptPath = CryptoJS.AES.encrypt(path, 'path').toString();
         let url = `${window.location.origin}/login?path=${encryptPath}`;
+        localStorage.removeItem('token')
         window.location.href = url;
       }
       message.error(error.response.data.message)

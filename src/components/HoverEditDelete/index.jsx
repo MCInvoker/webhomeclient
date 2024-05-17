@@ -3,76 +3,79 @@ import React, { useState } from 'react';
 import { Button, Popconfirm } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-function HoverEditDelete({
-  children,
-  showDelayTime = 500,
-  hiddenDelayTime = 2000,
-  handleEdit,
-  handleDelete,
-  top = 0,
-  right = 0,
-  deleteTitle = '删除',
-  deleteDescription = '确定要删除吗?',
+function HoverEditDelete ({
+    children,
+    showDelayTime = 500,
+    hiddenDelayTime = 200000,
+    handleEdit,
+    handleDelete,
+    positionStyle = {},
+    deleteTitle = '删除',
+    deleteDescription = '确定要删除吗?',
+    buttonType = 'text',
+    editButtonStyle = {},
 }) {
-  const [showIcon, setShowIcon] = useState(false);
-  let hoverTimer;
-  let leaveTimer;
+    const [showIcon, setShowIcon] = useState(false);
+    let hoverTimer;
+    let leaveTimer;
 
-  const handleMouseEnter = () => {
-    hoverTimer = setTimeout(() => {
-      setShowIcon(true);
-    }, showDelayTime);
-  };
-  const handleMouseLeave = () => {
-    clearTimeout(hoverTimer);
+    const handleMouseEnter = () => {
+        hoverTimer = setTimeout(() => {
+            setShowIcon(true);
+        }, showDelayTime);
+    };
+    const handleMouseLeave = () => {
+        clearTimeout(hoverTimer);
 
-    leaveTimer = setTimeout(() => {
-      setShowIcon(false);
-      clearTimeout(leaveTimer);
-    }, hiddenDelayTime);
-  };
+        leaveTimer = setTimeout(() => {
+            setShowIcon(false);
+            clearTimeout(leaveTimer);
+        }, hiddenDelayTime);
+    };
 
-  return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{ position: 'relative', display: 'inline-block' }}
-    >
-      {children}
-      {showIcon && (
+    return (
         <div
-          style={{
-            position: 'absolute',
-            top,
-            right,
-            cursor: 'pointer',
-            // background: "#f5f5f5",
-            background: '#fff',
-            padding: '10px',
-            borderRadius: '5px',
-            boxShadow:
-              '0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 9px 28px 8px rgba(0, 0, 0, 0.05)',
-          }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            style={{ position: 'relative', display: 'inline-block', width: '100%', height: '100%' }}
         >
-          <Button
-            style={{ marginRight: '8px' }}
-            shape="circle"
-            icon={<EditOutlined />}
-            onClick={() => handleEdit && handleEdit()}
-          />
-          <Popconfirm
-            title={deleteTitle}
-            description={deleteDescription}
-            onConfirm={async () => handleDelete && handleDelete()}
-            okText="确定"
-            cancelText="取消"
-          >
-            <Button shape="circle" icon={<DeleteOutlined />} />
-          </Popconfirm>
+            {children}
+            {showIcon && (
+                <div
+                    style={{
+                        position: 'absolute',
+                        background: '#fff',
+                        padding: '4px',
+                        borderRadius: '8px',
+                        border: '1px solid #ededee',
+                        zIndex: 1,
+                        boxShadow:
+                            '0 2px 8px 0 rgba(30, 30, 35, 0.08)',
+                        ...positionStyle,
+                    }}
+                >
+                    <Button
+                        style={{ marginRight: '4px', ...editButtonStyle }}
+                        type={buttonType}
+                        icon={<EditOutlined />}
+                        onClick={() => handleEdit && handleEdit()}
+                    />
+                    <Popconfirm
+                        title={deleteTitle}
+                        description={deleteDescription}
+                        onConfirm={async () => handleDelete && handleDelete()}
+                        okText="确定"
+                        cancelText="取消"
+                    >
+                        <Button
+                            type={buttonType}
+                            icon={<DeleteOutlined />}
+                        />
+                    </Popconfirm>
+                </div>
+            )}
         </div>
-      )}
-    </div>
-  );
+    );
 }
 
 export default HoverEditDelete;
