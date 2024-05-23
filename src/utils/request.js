@@ -28,6 +28,10 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (response) => {
+    const authorization = response.headers.get('authorization')
+    if (authorization) {
+        localStorage.setItem('token', authorization)
+    }
     // 响应数据处理
     return response.data;
   },
