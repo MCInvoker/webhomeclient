@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
 
-import { PlusOutlined } from '@ant-design/icons';
+// import { PlusOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 import { Button, message } from 'antd';
-import classNames from 'classnames';
+// import classNames from 'classnames';
 
 import { deleteCategory } from '../../api/category';
 import { deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
 import HoverEditDelete from '../../components/HoverEditDelete';
+import Icp from '../../components/Icp';
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
@@ -183,7 +184,11 @@ function SimpleHome () {
                                                 <div className={Styles.linkName} style={{ width: linkUrlWidth }}>
                                                     {link.link_name}
                                                 </div>
-                                                <div className={Styles.linkUrl} style={{ width: linkUrlWidth }}>
+                                                <div
+                                                    className={Styles.linkUrl}
+                                                    style={{ width: linkUrlWidth }}
+                                                    title={link.url}
+                                                >
                                                     {link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}
                                                 </div>
                                             </div>
@@ -191,15 +196,15 @@ function SimpleHome () {
                                     </HoverEditDelete>
                                 </div>
                             ))}
-                            <div className={Styles.linkBox} onClick={() => handleAddLink(category.category_id)} style={{ width: linksWidth }}>
-                                {/* <div className={Styles.linkItem}> */}
+                            {/* <div className={Styles.linkBox} onClick={() => handleAddLink(category.category_id)} style={{ width: linksWidth }}>
                                 <div className={classNames([Styles.linkItem, Styles.addLink])}>
                                     <PlusOutlined style={{ height: '60px', fontSize: '40px', color: '#e1e1e4' }} />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 ))}
+            <Icp />
             {addLinkOpen && <AddLink
                 open={addLinkOpen}
                 setAddOpen={setAddLinkOpen}

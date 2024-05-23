@@ -102,7 +102,7 @@ function AddLink (props) {
                     ></Select>
                 </Form.Item>
                 <Form.Item name="description" label="描述">
-                    <Input.TextArea />
+                    <Input.TextArea maxLength={100} />
                 </Form.Item>
             </Form>
         </Modal>
