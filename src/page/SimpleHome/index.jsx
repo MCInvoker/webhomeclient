@@ -10,10 +10,12 @@ import { deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
 import HoverEditDelete from '../../components/HoverEditDelete';
 import Icp from '../../components/Icp';
+import noLink from '../../image/noLink.png'
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
 import Styles from './index.module.css'
+
 
 function SimpleHome () {
     const params = new URLSearchParams(window.location.search);
@@ -36,8 +38,9 @@ function SimpleHome () {
         fetchData();
     }, [page_id]);
 
+    // 分类数组，用于新增链接时提供分类选项
     const categories = useMemo(() => {
-        if (page.categories) {
+        if (page && page.categories) {
             return page.categories.map((item) => {
                 return {
                     value: item.category_id,
@@ -119,6 +122,20 @@ function SimpleHome () {
         });
         setAddCategoryOpen(true);
     };
+
+    // 是否展示无数据样式
+    const showNoData = useMemo(() => {
+        let res = true
+        if (page && page.categories) {
+            for (let i = 0; i < page.categories.length; i++) {
+                if (page.categories[i].links && page.categories[i].links.length > 0) {
+                    res = false
+                    break;
+                }
+            }
+        }
+        return res
+    }, [page])
 
     return (
         <div className={Styles.simpleHome}>
@@ -204,6 +221,12 @@ function SimpleHome () {
                         </div>
                     </div>
                 ))}
+            {showNoData && <div className={Styles.noDataBox}>
+                <img className={Styles.noDataImg} src={noLink} alt="" />
+                <div className={Styles.noDataText}>暂无收藏</div>
+            </div>}
+            {/* 在数据少的时候撑起页面高度，让Icp组件在页面下方 */}
+            {!showNoData && <div className={Styles.noDataBox}></div>}
             <Icp />
             {addLinkOpen && <AddLink
                 open={addLinkOpen}

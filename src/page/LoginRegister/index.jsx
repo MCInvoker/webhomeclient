@@ -1,50 +1,87 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { KeyOutlined, UserOutlined } from '@ant-design/icons';
-import { Segmented, Input, Checkbox, Button } from 'antd';
+import { Segmented, Button } from 'antd';
 import { createStyles } from 'antd-style';
 
+import AccountPassword from './AccountPassword';
+import PhoneLogin from './PhoneLogin';
+import RegisterForm from './RegisterForm';
 import loginImg from './login.jpg';
 
-function LoginRegister() {
-  const { styles } = useStyles();
-  return (
-    <div className={styles.loginPage}>
-      <div className={styles.loginBox}>
-        <img src={loginImg} alt="" className={styles.loginImg} />
-        <div className={styles.loginRight}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div className={styles.loginTitle}>登录</div>
-            <Segmented options={['账号登录', '手机号登录']} className={styles.loginSegmented} />
-          </div>
-          <Input
-            placeholder="请输入账号"
-            prefix={<UserOutlined />}
-            style={{ marginTop: 40, marginBottom: 22 }}
-          />
-          <Input.Password
-            placeholder="请输入密码"
-            prefix={<KeyOutlined />}
-            style={{ marginBottom: 22 }}
-          />
-          <Input placeholder="这里是滚动验证" style={{ marginBottom: 28 }} />
-          <Checkbox style={{ fontSize: 12 }}>记住账号密码</Checkbox>
-          <div style={{ margin: '14px 0 ' }}>
-            <Button type="primary" style={{ width: '100%', height: 32 }}>
-              登录
-            </Button>
-          </div>
-          <div>
-            没有账号？<span style={{ color: '#1E67FA' }}>去注册</span>
-          </div>
+function LoginRegister () {
+    const { styles } = useStyles();
+    const [isRegister, setIsRegister] = useState(false);
+    const [loginType, setLoginType] = useState('账号登录'); // 手机号登录、账号登录
+    return (
+        <div className={styles.loginPage}>
+            <div className={styles.loginBox}>
+                <img src={loginImg} alt="" className={styles.loginImg} />
+                {/* 登录 */}
+                {!isRegister && (
+                    <div
+                        className={styles.loginRight}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <div className={styles.loginTitle}>登录</div>
+                            <Segmented
+                                options={['账号登录', '手机号登录']}
+                                className={styles.loginSegmented}
+                                onChange={(value) => {
+                                    setLoginType(value)
+                                }}
+                            />
+                        </div>
+                        {loginType === '账号登录' && (
+                            <AccountPassword />
+                        )}
+                        {loginType === '手机号登录' && (
+                            <PhoneLogin />
+                        )}
+                        <div>
+                            没有账号？
+                            <Button
+                                size="small"
+                                type="link"
+                                onClick={() => setIsRegister(true)}
+                                style={{
+                                    fontSize: 12,
+                                    padding: 0
+                                }}
+                            >去注册</Button>
+                        </div>
+                    </div>
+                )}
+                {/* 注册 */}
+                {isRegister && (
+                    <div
+                        className={styles.loginRight}
+                        style={{
+                            paddingTop: 40
+                        }}
+                    >
+                        <div className={styles.loginTitle}>注册</div>
+                        <RegisterForm setIsRegister={setIsRegister} />
+                        <div>
+                            已有账号？
+                            <Button
+                                size="small"
+                                type="link"
+                                onClick={() => setIsRegister(false)}
+                                style={{
+                                    fontSize: 12,
+                                    padding: 0
+                                }}
+                            >去登录</Button>
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 const useStyles = createStyles(({ css }) => ({
-  loginPage: css`
+    loginPage: css`
     min-width: 100wh;
     min-height: 100vh;
     display: flex;
@@ -60,7 +97,7 @@ const useStyles = createStyles(({ css }) => ({
       #eefff7 100%
     );
   `,
-  loginBox: css`
+    loginBox: css`
     width: 828px;
     height: 440px;
     border-radius: 10px;
@@ -68,11 +105,11 @@ const useStyles = createStyles(({ css }) => ({
     display: flex;
     background-color: #fff;
   `,
-  loginImg: css`
+    loginImg: css`
     width: 475px;
     height: 100%;
   `,
-  loginRight: css`
+    loginRight: css`
     flex: 1;
     padding: 61px 56px 0px;
     .ant-input-outlined {
@@ -82,13 +119,13 @@ const useStyles = createStyles(({ css }) => ({
       font-size: 12px !important;
     }
   `,
-  loginTitle: css`
+    loginTitle: css`
     height: 33px;
     line-height: 33px;
     font-size: 24px;
     font-weight: 500;
   `,
-  loginSegmented: css`
+    loginSegmented: css`
     height: 33px;
     font-size: 12px;
   `,

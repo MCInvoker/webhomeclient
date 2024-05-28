@@ -1,8 +1,8 @@
 .simpleHome {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    min-height: 100vh;
 }
 
 .simpleHomeTop {
@@ -114,4 +114,23 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.noDataBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.noDataImg {
+    width: 160px;
+    margin-bottom: 12px;
+}
+
+.noDataText {
+    font-size: 14px;
+    line-height: 22px;
+    color: #8E8E91;
 }

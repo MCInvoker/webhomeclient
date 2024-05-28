@@ -14,6 +14,7 @@ function HoverEditDelete ({
     deleteDescription = '确定要删除吗?',
     buttonType = 'text',
     editButtonStyle = {},
+    draggableing = false, // 拖拽进行时不展示
 }) {
     const [showIcon, setShowIcon] = useState(false);
     let hoverTimer;
@@ -40,7 +41,7 @@ function HoverEditDelete ({
             style={{ position: 'relative', display: 'inline-block', width: '100%', height: '100%' }}
         >
             {children}
-            {showIcon && (
+            {!draggableing && showIcon && (
                 <div
                     style={{
                         position: 'absolute',

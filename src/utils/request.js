@@ -32,6 +32,10 @@ request.interceptors.response.use(
     if (authorization) {
         localStorage.setItem('token', authorization)
     }
+    // 服务端已知错误处理
+    if (response && response.data && response.data.success === false && response.data.message) {
+        message.info(response.data.message)
+    }
     // 响应数据处理
     return response.data;
   },
