@@ -26,12 +26,11 @@ const PhoneLogin = () => {
     // 验证手机号是否注册过
     const { run: phoneCheckFn, loading: phoneCheckLoading } = useRequest(phoneCheck, {
         manual: true,
-        onBefore: () => {
-            setIsPhoneCheck(false)
-        },
         onSuccess: (res) => {
             if (res.success) {
                 setIsPhoneCheck(true)
+            } else {
+                setIsPhoneCheck(false)
             }
         },
     });

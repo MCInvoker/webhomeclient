@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// import { PlusOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 import { Button, message } from 'antd';
-// import classNames from 'classnames';
+import classNames from 'classnames';
 
 import { deleteCategory } from '../../api/category';
 import { deleteLink } from '../../api/link';
@@ -18,6 +18,7 @@ import Styles from './index.module.css'
 
 
 function SimpleHome () {
+    const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
     const page_id = params.get('page_id');
 
@@ -29,6 +30,7 @@ function SimpleHome () {
     const [editLinkInfo, setEditLinkInfo] = useState(null);
     const [linksWidth, setLinksWidth] = useState('25%'); // 链接宽度
     const [linkUrlWidth, setLinkUrlWidth] = useState('140px'); // 链接地址的宽度
+    const [hasShadow, setHasShadow] = useState(false);
     const getPageInfo = useCallback(() => {
         async function fetchData () {
             if (!page_id) return;
@@ -50,6 +52,21 @@ function SimpleHome () {
         }
         return []
     }, [page])
+
+    // simpleHomeTop阴影
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setHasShadow(true);
+            } else {
+                setHasShadow(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []); // 空数组作为第二个参数，表示只在组件挂载和卸载时执行一次
 
     // 设置链接宽度，窗口大小发生改变时需要重新计算
     useEffect(() => {
@@ -137,25 +154,39 @@ function SimpleHome () {
         return res
     }, [page])
 
+    const goLogin = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
+
     return (
         <div className={Styles.simpleHome}>
-            <div className={Styles.simpleHomeTop}>
-                <Button
-                    size='large'
-                    type='primary'
-                    icon={
-                        <i className="iconfont icon-icon-collect" />
-                    }
-                    style={{ marginRight: '12px' }}
-                    onClick={() => handleAddLink(categories[0].value)}
-                >收藏网址</Button>
-                <Button
-                    size='large'
-                    icon={
-                        <i className="iconfont icon-folder-add" />
-                    }
-                    onClick={() => handleAddCategory()}
-                >添加分类</Button>
+            <div className={classNames([Styles.simpleHomeTop, hasShadow ? Styles.simpleHomeTopShadow : null])}>
+                <div className={Styles.simpleHomeTopContent}>
+                    <div>
+                        <Button
+                            size='large'
+                            type='primary'
+                            icon={
+                                <i className="iconfont icon-icon-collect" />
+                            }
+                            style={{ marginRight: '12px' }}
+                            onClick={() => handleAddLink(categories[0].value)}
+                        >收藏网址</Button>
+                        <Button
+                            size='large'
+                            icon={
+                                <i className="iconfont icon-folder-add" />
+                            }
+                            onClick={() => handleAddCategory()}
+                        >添加分类</Button>
+                    </div>
+                    <Button
+                        size="small"
+                        type="link"
+                        onClick={() => goLogin()}
+                    >退出登录</Button>
+                </div>
             </div>
             {page &&
                 page.categories &&

@@ -26,24 +26,22 @@ const RegisterForm = ({ setIsRegister }) => {
 
     const { run: accountCheckFn } = useRequest(accountCheck, {
         manual: true,
-        onBefore: () => {
-            setIsAccountCheck(false)
-        },
         onSuccess: (res) => {
             if (res.success) {
                 setIsAccountCheck(true)
+            } else {
+                setIsAccountCheck(false)
             }
         },
     });
 
     const { run: phoneCheckFn, loading: phoneCheckLoading } = useRequest(phoneCheck, {
         manual: true,
-        onBefore: () => {
-            setIsPhoneCheck(false)
-        },
         onSuccess: (res) => {
             if (res.success) {
                 setIsPhoneCheck(true)
+            } else {
+                setIsPhoneCheck(false)
             }
         },
     });
@@ -91,7 +89,7 @@ const RegisterForm = ({ setIsRegister }) => {
 
     // 获取验证码
     const handleSmsRegister = () => {
-        if (phone.length !== 11) {
+        if (!phone || phone.length !== 11) {
             message.error('请输入正确的手机号')
             return
         }
@@ -128,7 +126,7 @@ const RegisterForm = ({ setIsRegister }) => {
                 ]}
                 style={{ marginBottom: 16 }}
                 onBlur={checkAccountExists} // 在失去焦点时触发校验
-                help={isAccountCheck ? '' : '该账号已被注册'}
+                extra={isAccountCheck ? null : '该账号已被注册'}
             >
                 <Input
                     placeholder='请输入账号'
@@ -178,7 +176,7 @@ const RegisterForm = ({ setIsRegister }) => {
                 ]}
                 style={{ marginBottom: 16 }}
                 onBlur={checkPhoneExists} // 在失去焦点时触发校验
-                help={isPhoneCheck ? '' : '该手机号已被注册,可直接登录'}
+                extra={isPhoneCheck ? null : '该手机号已被注册,可直接登录'}
             >
                 <Input
                     placeholder='请输入手机号'
