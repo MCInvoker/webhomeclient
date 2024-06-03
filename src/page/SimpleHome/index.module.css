@@ -133,6 +133,11 @@
     text-overflow: ellipsis;
 }
 
+.linkUrl:hover {
+    color: #8e8e91;
+    text-decoration: none;
+}
+
 .noDataBox {
     display: flex;
     flex-direction: column;

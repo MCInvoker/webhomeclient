@@ -1,24 +1,23 @@
 import React, { useCallback, useEffect, useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 
+// import { PlusOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
 import { Button, message } from 'antd';
-import classNames from 'classnames';
+import _ from 'lodash';
+// import classNames from 'classnames';
 
 import { deleteCategory } from '../../api/category';
 import { deleteLink } from '../../api/link';
 import { getPage } from '../../api/page';
 import HoverEditDelete from '../../components/HoverEditDelete';
 import Icp from '../../components/Icp';
-import noLink from '../../image/noLink.png'
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
 import Styles from './index.module.css'
-
+// const _ = require('lodash');
 
 function SimpleHome () {
-    const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
     const page_id = params.get('page_id');
 
@@ -30,7 +29,9 @@ function SimpleHome () {
     const [editLinkInfo, setEditLinkInfo] = useState(null);
     const [linksWidth, setLinksWidth] = useState('25%'); // 链接宽度
     const [linkUrlWidth, setLinkUrlWidth] = useState('140px'); // 链接地址的宽度
-    const [hasShadow, setHasShadow] = useState(false);
+    const [draggedItem, setDraggedItem] = useState(null);
+    const [draggableing, setDraggableing] = useState(false)
+
     const getPageInfo = useCallback(() => {
         async function fetchData () {
             if (!page_id) return;
@@ -40,9 +41,8 @@ function SimpleHome () {
         fetchData();
     }, [page_id]);
 
-    // 分类数组，用于新增链接时提供分类选项
     const categories = useMemo(() => {
-        if (page && page.categories) {
+        if (page.categories) {
             return page.categories.map((item) => {
                 return {
                     value: item.category_id,
@@ -52,21 +52,6 @@ function SimpleHome () {
         }
         return []
     }, [page])
-
-    // simpleHomeTop阴影
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 10) {
-                setHasShadow(true);
-            } else {
-                setHasShadow(false);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []); // 空数组作为第二个参数，表示只在组件挂载和卸载时执行一次
 
     // 设置链接宽度，窗口大小发生改变时需要重新计算
     useEffect(() => {
@@ -140,57 +125,66 @@ function SimpleHome () {
         setAddCategoryOpen(true);
     };
 
-    // 是否展示无数据样式
-    const showNoData = useMemo(() => {
-        let res = true
-        if (page && page.categories) {
-            for (let i = 0; i < page.categories.length; i++) {
-                if (page.categories[i].links && page.categories[i].links.length > 0) {
-                    res = false
-                    break;
-                }
-            }
+    const handleDragStart = (e, linkIndex, categoryIndex) => {
+        setDraggableing(true)
+        setDraggedItem(page.categories[categoryIndex].links[linkIndex])
+        // e.dataTransfer.effectAllowed = 'move';
+        // e.dataTransfer.setData('text/html', e.target.parentNode);
+        // e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
+    }
+    const handleDrageOver = (linkIndex, categoryIndex) => {
+        const dragfedOverItem = page.categories[categoryIndex].links[linkIndex];
+        if (draggedItem === dragfedOverItem) {
+            return;
         }
-        return res
-    }, [page])
-
-    const goLogin = () => {
-        localStorage.removeItem('token');
-        navigate('/login');
+        const pageCopy = _.cloneDeep(page);
+        let draggedItemInfo = {
+            categoryIndex: 0,
+            linkIndex: 0,
+        }
+        pageCopy.categories.forEach((categorie, _categoryIndex) => {
+            categorie.links.forEach((link, _linkIndex) => {
+                if (link.link_id === draggedItem.link_id) {
+                    draggedItemInfo = {
+                        categoryIndex: _categoryIndex,
+                        linkIndex: _linkIndex,
+                    }
+                }
+            })
+        })
+        pageCopy.categories[categoryIndex].links.splice(linkIndex, 0, pageCopy.categories[draggedItemInfo.categoryIndex].links.splice(draggedItemInfo.linkIndex, 1)[0]);
+        setPage(pageCopy)
     }
 
+    const handleDragEnd = (linkIndex, categoryIndex) => {
+        console.log('onDragEnd')
+        console.log('page', page)
+        console.log('linkIndex, categoryIndex', linkIndex, categoryIndex)
+        setDraggableing(false)
+    }
     return (
         <div className={Styles.simpleHome}>
-            <div className={classNames([Styles.simpleHomeTop, hasShadow ? Styles.simpleHomeTopShadow : null])}>
-                <div className={Styles.simpleHomeTopContent}>
-                    <div>
-                        <Button
-                            size='large'
-                            type='primary'
-                            icon={
-                                <i className="iconfont icon-icon-collect" />
-                            }
-                            style={{ marginRight: '12px' }}
-                            onClick={() => handleAddLink(categories[0].value)}
-                        >收藏网址</Button>
-                        <Button
-                            size='large'
-                            icon={
-                                <i className="iconfont icon-folder-add" />
-                            }
-                            onClick={() => handleAddCategory()}
-                        >添加分类</Button>
-                    </div>
-                    <Button
-                        size="small"
-                        type="link"
-                        onClick={() => goLogin()}
-                    >退出登录</Button>
-                </div>
+            <div className={Styles.simpleHomeTop}>
+                <Button
+                    size='large'
+                    type='primary'
+                    icon={
+                        <i className="iconfont icon-icon-collect" />
+                    }
+                    style={{ marginRight: '12px' }}
+                    onClick={() => handleAddLink(categories[0].value)}
+                >收藏网址</Button>
+                <Button
+                    size='large'
+                    icon={
+                        <i className="iconfont icon-folder-add" />
+                    }
+                    onClick={() => handleAddCategory()}
+                >添加分类</Button>
             </div>
             {page &&
                 page.categories &&
-                page.categories.map((category) => (
+                page.categories.map((category, categoryIndex) => (
                     <div key={category.category_id} className={Styles.category}>
                         <HoverEditDelete
                             handleDelete={async () => deleteCategoryFn(category.category_id)}
@@ -205,13 +199,22 @@ function SimpleHome () {
                                 boxShadow: 'none',
                             }}
                             buttonType='default'
+                            draggableing={draggableing}
                             editButtonStyle={{ marginRight: '12px' }}
                         >
                             <div className={Styles.categoryName}>{category.category_name}</div>
                         </HoverEditDelete>
                         <div className={Styles.links}>
-                            {category.links.map((link) => (
-                                <div key={link.link_id} className={Styles.linkBox} style={{ width: linksWidth }}>
+                            {category.links.map((link, linkIndex) => (
+                                <div
+                                    key={link.link_id}
+                                    // draggable
+                                    // onDragStart={(e) => handleDragStart(e, linkIndex, categoryIndex)}
+                                    // onDragOver={() => handleDrageOver(linkIndex, categoryIndex)}
+                                    // style={{ width: linksWidth, opacity: draggedItem === link ? 0.5 : 1 }}
+                                    className={Styles.linkBox}
+                                    style={{ width: linksWidth }}
+                                >
                                     <HoverEditDelete
                                         handleDelete={async () => deleteLinkFn(link.link_id)}
                                         handleEdit={() => handleEditLink(link)}
@@ -220,8 +223,17 @@ function SimpleHome () {
                                             bottom: '-12px',
                                             transform: 'translate(-50%, 100%)'
                                         }}
+                                        draggableing={draggableing}
                                     >
-                                        <div className={Styles.linkItem} onClick={() => handleLink(link.url)}>
+                                        <div
+                                            className={Styles.linkItem}
+                                            onClick={() => handleLink(link.url)}
+                                            draggable
+                                            onDragStart={(e) => handleDragStart(e, linkIndex, categoryIndex)}
+                                            onDragOver={() => handleDrageOver(linkIndex, categoryIndex)}
+                                            onDragEnd={() => handleDragEnd(linkIndex, categoryIndex)}
+                                            style={{ opacity: draggedItem === link ? 0.5 : 1 }}
+                                        >
                                             <div className={Styles.linkItemLeft}>
                                                 {link.icon && (
                                                     <img className={Styles.linkImg} src={link.icon} alt={link.title || ''} />
@@ -229,13 +241,16 @@ function SimpleHome () {
                                                 {!link.icon && <div className={Styles.linkInitial}>{link.link_name[0] || ''}</div>}
                                             </div>
                                             <div className={Styles.linkItemRight}>
-                                                <a className={Styles.linkName} style={{ width: linkUrlWidth }} href={link.url} target="_blank" rel="noopener noreferrer">{link.link_name}</a>
-                                                <a
+                                                <div className={Styles.linkName} style={{ width: linkUrlWidth }}>
+                                                    {link.link_name}
+                                                </div>
+                                                <div
                                                     className={Styles.linkUrl}
                                                     style={{ width: linkUrlWidth }}
-                                                    href={link.url} target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >{link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}</a>
+                                                    title={link.url}
+                                                >
+                                                    {link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}
+                                                </div>
                                             </div>
                                         </div>
                                     </HoverEditDelete>
@@ -249,12 +264,6 @@ function SimpleHome () {
                         </div>
                     </div>
                 ))}
-            {showNoData && <div className={Styles.noDataBox}>
-                <img className={Styles.noDataImg} src={noLink} alt="" />
-                <div className={Styles.noDataText}>暂无收藏</div>
-            </div>}
-            {/* 在数据少的时候撑起页面高度，让Icp组件在页面下方 */}
-            {!showNoData && <div className={Styles.noDataBox}></div>}
             <Icp />
             {addLinkOpen && <AddLink
                 open={addLinkOpen}
