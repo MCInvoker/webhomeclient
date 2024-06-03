@@ -8,7 +8,7 @@
         "@testing-library/react": "^13.4.0",
         "@testing-library/user-event": "^13.5.0",
         "ahooks": "^3.7.8",
-        "antd": "^5.11.1",
+        "antd": "^5.17.2",
         "antd-style": "^3.6.2",
         "axios": "^1.6.2",
         "classnames": "^2.5.1",
