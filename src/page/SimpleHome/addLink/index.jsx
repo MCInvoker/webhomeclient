@@ -77,7 +77,11 @@ function AddLink (props) {
             onOk={handleCreate}
             confirmLoading={addLoading || updateLoading}
         >
-            <Form form={form} layout="vertical">
+            <Form
+                form={form}
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 16 }}
+            >
                 <Form.Item
                     name="link_name"
                     label="名称"

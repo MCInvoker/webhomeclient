@@ -57,7 +57,11 @@ function AddCategory (props) {
             onOk={handleCreate}
             confirmLoading={confirmLoading}
         >
-            <Form form={form} layout="vertical">
+            <Form
+                form={form}
+                labelCol={{ span: 6 }}
+                wrapperCol={{ span: 16 }}
+            >
                 <Form.Item
                     name="category_name"
                     label="名称"
