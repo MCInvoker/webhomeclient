@@ -12,6 +12,7 @@
         "antd-style": "^3.6.2",
         "axios": "^1.6.2",
         "classnames": "^2.5.1",
+        "colorthief": "^2.4.0",
         "crypto-js": "^4.2.0",
         "http-proxy-middleware": "^2.0.6",
         "lodash": "^4.17.21",
