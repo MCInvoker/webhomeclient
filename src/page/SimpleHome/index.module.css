@@ -65,6 +65,8 @@
 .linkItem:hover {
     border: 1px solid #ededee;
     box-shadow: 0px 4px 20px 0px rgba(30, 30, 35, 0.08);
+    text-decoration: none;
+    color: #1e67fa;
 }
 
 .linkItem:hover .linkName {
@@ -131,11 +133,6 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.linkUrl:hover {
-    color: #8e8e91;
-    text-decoration: none;
 }
 
 .noDataBox {

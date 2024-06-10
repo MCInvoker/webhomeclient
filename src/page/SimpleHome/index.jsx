@@ -89,10 +89,6 @@ function SimpleHome () {
         getPageInfo();
     }, [getPageInfo]);
 
-    const handleLink = (url) => {
-        window.open(url, '_blank');
-    };
-
     const handleAddLink = (category_id) => {
         setCategory_id(category_id);
         setEditLinkInfo(null);
@@ -221,7 +217,12 @@ function SimpleHome () {
                                             transform: 'translate(-50%, 100%)'
                                         }}
                                     >
-                                        <div className={Styles.linkItem} onClick={() => handleLink(link.url)}>
+                                        <a
+                                            className={Styles.linkItem}
+                                            href={link.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                        >
                                             <div className={Styles.linkItemLeft}>
                                                 {link.icon && (
                                                     <img className={Styles.linkImg} src={link.icon} alt={link.title || ''} />
@@ -229,15 +230,13 @@ function SimpleHome () {
                                                 {!link.icon && <div className={Styles.linkInitial}>{link.link_name[0] || ''}</div>}
                                             </div>
                                             <div className={Styles.linkItemRight}>
-                                                <a className={Styles.linkName} style={{ width: linkUrlWidth }} href={link.url} target="_blank" rel="noopener noreferrer">{link.link_name}</a>
-                                                <a
+                                                <span className={Styles.linkName} style={{ width: linkUrlWidth }}>{link.link_name}</span>
+                                                <span
                                                     className={Styles.linkUrl}
                                                     style={{ width: linkUrlWidth }}
-                                                    href={link.url} target="_blank"
-                                                    rel="noopener noreferrer"
-                                                >{link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}</a>
+                                                >{link.url.match(/\/\/(.+)/) && (link.url.match(/\/\/(.+)/).length > 1) ? link.url.match(/\/\/(.+)/)[1] : link.url}</span>
                                             </div>
-                                        </div>
+                                        </a>
                                     </HoverEditDelete>
                                 </div>
                             ))}
