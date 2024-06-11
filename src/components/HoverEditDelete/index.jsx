@@ -5,8 +5,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 function HoverEditDelete ({
     children,
-    showDelayTime = 500,
-    hiddenDelayTime = 3000,
+    showDelayTime = 500, // 显示这个组件需要悬浮的时间
+    hiddenDelayTime = 3000, // 移开后多少秒隐藏
     handleEdit,
     handleDelete,
     positionStyle = {},
@@ -15,22 +15,35 @@ function HoverEditDelete ({
     buttonType = 'text',
     editButtonStyle = {},
     draggableing = false, // 拖拽进行时不展示
+    transitionDuration = 1, // 淡入淡出动画持续时间
 }) {
     const [showIcon, setShowIcon] = useState(false);
+    const [opacity, setOpacity] = useState(0);
     let hoverTimer;
     let leaveTimer;
+    let hoverOpacityTimer;
+    let leaveOpacityTimer;
 
     const handleMouseEnter = () => {
         hoverTimer = setTimeout(() => {
             setShowIcon(true);
         }, showDelayTime);
+        hoverOpacityTimer = setTimeout(() => {
+            setOpacity(1);
+        }, (showDelayTime + 100));
     };
     const handleMouseLeave = () => {
         clearTimeout(hoverTimer);
+        clearTimeout(hoverOpacityTimer);
 
         leaveTimer = setTimeout(() => {
             setShowIcon(false);
             clearTimeout(leaveTimer);
+        }, (hiddenDelayTime + transitionDuration * 1000));
+
+        leaveOpacityTimer = setTimeout(() => {
+            setOpacity(0);
+            clearTimeout(leaveOpacityTimer);
         }, hiddenDelayTime);
     };
 
@@ -52,6 +65,8 @@ function HoverEditDelete ({
                         zIndex: 1,
                         boxShadow:
                             '0 2px 8px 0 rgba(30, 30, 35, 0.08)',
+                        opacity: opacity, // 控制透明度
+                        transition: `opacity ${transitionDuration}s ease`, // 设置过渡效果
                         ...positionStyle,
                     }}
                 >
