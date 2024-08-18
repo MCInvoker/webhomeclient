@@ -32,7 +32,7 @@ function AddLink (props) {
     // 获取图片上传token信息
     useEffect(() => {
         getStsTokenFn()
-    }, [])
+    }, [getStsTokenFn])
 
     // 新增链接
     const { run: addLinkFn, loading: addLoading } = useRequest(addLink, {
