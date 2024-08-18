@@ -11,18 +11,17 @@ import { getPage } from '../../api/page';
 import HoverEditDelete from '../../components/HoverEditDelete';
 import Icp from '../../components/Icp';
 import noLink from '../../image/noLink.png'
+import { getLocalStorage } from '../../utils/utils';
 
 import AddCategory from './addCategory';
 import AddLink from './addLink';
 import Styles from './index.module.css'
 
-
 function SimpleHome () {
     const navigate = useNavigate();
     const params = new URLSearchParams(window.location.search);
     const page_id = params.get('page_id');
-
-    const [page, setPage] = useState({});
+    const [page, setPage] = useState(getLocalStorage(`pageInfo_${page_id}`)); // 缓存之前获取的书签信息，打开网页在请求书签信息前有上一次的值，减少页面空白时间
     const [category_id, setCategory_id] = useState(''); // 新增link时的分类id
     const [addLinkOpen, setAddLinkOpen] = useState(false);
     const [addCategoryOpen, setAddCategoryOpen] = useState(false);
@@ -36,6 +35,7 @@ function SimpleHome () {
             if (!page_id) return;
             const res = await getPage(page_id);
             setPage(res.data);
+            localStorage.setItem(`pageInfo_${page_id}`, JSON.stringify(res.data))
         }
         fetchData();
     }, [page_id]);
@@ -115,6 +115,7 @@ function SimpleHome () {
             url: link.url,
             description: link.description,
             category_id: link.category_id,
+            icon: link.icon
         });
         setAddLinkOpen(true);
     };
