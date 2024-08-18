@@ -24,6 +24,7 @@ function HoverEditDelete ({
     let hoverOpacityTimer;
     let leaveOpacityTimer;
 
+    // 鼠标移入
     const handleMouseEnter = () => {
         hoverTimer = setTimeout(() => {
             setShowIcon(true);
@@ -32,6 +33,8 @@ function HoverEditDelete ({
             setOpacity(1);
         }, (showDelayTime + 100));
     };
+
+    // 鼠标移出
     const handleMouseLeave = () => {
         clearTimeout(hoverTimer);
         clearTimeout(hoverOpacityTimer);
